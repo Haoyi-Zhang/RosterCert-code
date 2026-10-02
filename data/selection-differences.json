@@ -1,0 +1,442 @@
+{
+  "changed_profiles": 47,
+  "comparison": "Archival JSON comparison on the final sampled cohort only; no semantic re-execution.",
+  "differences": [
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000009",
+      "unordered_profile": {
+        "identity-0": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e1"
+      },
+      "id": "case-000053",
+      "unordered_profile": {
+        "identity-2": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e0"
+      },
+      "id": "case-000077",
+      "unordered_profile": {
+        "identity-1": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e3"
+      },
+      "id": "case-000081",
+      "unordered_profile": {
+        "identity-0": "e4"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e3",
+        "identity-2": "e1"
+      },
+      "id": "case-000163",
+      "unordered_profile": {
+        "identity-0": "e0",
+        "identity-1": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e4"
+      },
+      "id": "case-000183",
+      "unordered_profile": {
+        "identity-2": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e3"
+      },
+      "id": "case-000203",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000211",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e0"
+      },
+      "id": "case-000227",
+      "unordered_profile": {
+        "identity-1": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e5"
+      },
+      "id": "case-000261",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e0"
+      },
+      "id": "case-000269",
+      "unordered_profile": {
+        "identity-1": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e4"
+      },
+      "id": "case-000299",
+      "unordered_profile": {
+        "identity-0": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e2"
+      },
+      "id": "case-000325",
+      "unordered_profile": {
+        "identity-1": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e0",
+        "identity-2": "e5"
+      },
+      "id": "case-000333",
+      "unordered_profile": {
+        "identity-0": "e2",
+        "identity-1": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e4"
+      },
+      "id": "case-000339",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e1",
+        "identity-1": "e2"
+      },
+      "id": "case-000419",
+      "unordered_profile": {
+        "identity-1": "e2",
+        "identity-2": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e3"
+      },
+      "id": "case-000443",
+      "unordered_profile": {
+        "identity-2": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e1"
+      },
+      "id": "case-000491",
+      "unordered_profile": {
+        "identity-2": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e1"
+      },
+      "id": "case-000513",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e2"
+      },
+      "id": "case-000521",
+      "unordered_profile": {
+        "identity-0": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e1"
+      },
+      "id": "case-000565",
+      "unordered_profile": {
+        "identity-1": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e2"
+      },
+      "id": "case-000581",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e3"
+      },
+      "id": "case-000615",
+      "unordered_profile": {
+        "identity-0": "e4"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e3"
+      },
+      "id": "case-000623",
+      "unordered_profile": {
+        "identity-1": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000631",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000655",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000659",
+      "unordered_profile": {
+        "identity-0": "e4"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e2"
+      },
+      "id": "case-000663",
+      "unordered_profile": {
+        "identity-1": "e5"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e3"
+      },
+      "id": "case-000693",
+      "unordered_profile": {
+        "identity-1": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e2"
+      },
+      "id": "case-000705",
+      "unordered_profile": {
+        "identity-2": "e5"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e4"
+      },
+      "id": "case-000711",
+      "unordered_profile": {
+        "identity-0": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e0"
+      },
+      "id": "case-000747",
+      "unordered_profile": {
+        "identity-2": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e3"
+      },
+      "id": "case-000799",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-000829",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e1",
+        "identity-1": "e0"
+      },
+      "id": "case-000863",
+      "unordered_profile": {
+        "identity-1": "e0",
+        "identity-2": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e4"
+      },
+      "id": "case-000885",
+      "unordered_profile": {
+        "identity-2": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e2"
+      },
+      "id": "case-000929",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e0"
+      },
+      "id": "case-001037",
+      "unordered_profile": {
+        "identity-2": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e1"
+      },
+      "id": "case-001039",
+      "unordered_profile": {
+        "identity-2": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e4",
+        "identity-1": "e1"
+      },
+      "id": "case-001041",
+      "unordered_profile": {
+        "identity-1": "e1",
+        "identity-2": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e1"
+      },
+      "id": "case-001051",
+      "unordered_profile": {
+        "identity-2": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e4"
+      },
+      "id": "case-001071",
+      "unordered_profile": {
+        "identity-2": "e5"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e2"
+      },
+      "id": "case-001073",
+      "unordered_profile": {
+        "identity-0": "e3"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e0",
+        "identity-2": "e2"
+      },
+      "id": "case-001105",
+      "unordered_profile": {
+        "identity-0": "e1",
+        "identity-1": "e0"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-1": "e0"
+      },
+      "id": "case-001141",
+      "unordered_profile": {
+        "identity-0": "e1"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-0": "e3"
+      },
+      "id": "case-001187",
+      "unordered_profile": {
+        "identity-1": "e2"
+      }
+    },
+    {
+      "canonical_profile": {
+        "identity-2": "e1"
+      },
+      "id": "case-001197",
+      "unordered_profile": {
+        "identity-0": "e0"
+      }
+    }
+  ],
+  "other_fields_changed": false
+}

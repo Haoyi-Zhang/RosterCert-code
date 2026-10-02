@@ -1,0 +1,23 @@
+measure,value,interpretation
+bounded_ideal_memberships,11523,finite diagnostic; fresh bounded campaign
+cases,2165,finite diagnostic; fresh bounded campaign
+certificate_mutations_rejected,150,finite diagnostic; fresh bounded campaign
+chain_optima,150,finite diagnostic; fresh bounded campaign
+counted_obligations_upper_bound,187034,finite diagnostic; fresh bounded campaign
+designed_infeasible_queries,800,finite diagnostic; fresh bounded campaign
+empty_profiles,198,finite diagnostic; fresh bounded campaign
+feasible_queries,789,finite diagnostic; fresh bounded campaign
+flow_replays,150,finite diagnostic; fresh bounded campaign
+hardness_reduction_instances,15,finite diagnostic; fresh bounded campaign
+infeasible_queries,1211,finite diagnostic; fresh bounded campaign
+negative_controls,4,finite diagnostic; fresh bounded campaign
+renaming_checks,200,finite diagnostic; fresh bounded campaign
+session_binding_mutations_rejected,12,finite diagnostic; fresh bounded campaign
+universal_queries,2000,finite diagnostic; fresh bounded campaign
+universal_true,328,finite diagnostic; fresh bounded campaign
+window_queries,2000,finite diagnostic; fresh bounded campaign
+maximum_events,12,"observed corpus maximum, not theorem scope"
+maximum_identities,4,"observed corpus maximum, not theorem scope"
+maximum_per_identity_writes,6,"observed corpus maximum, not theorem scope"
+maximum_profile,3,"observed corpus maximum, not theorem scope"
+maximum_width,6,"observed corpus maximum, not theorem scope"

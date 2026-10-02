@@ -1,0 +1,47 @@
+{
+  "authoritative_interpretation": "campaign-status.json",
+  "campaign_status": "permanently noncompliant",
+  "entries": [
+    {
+      "actual_counted_obligations": 187034,
+      "label": "frozen-record",
+      "metrics": {
+        "actual_counted_obligations": 187034,
+        "child_processes": 0,
+        "operation": "record",
+        "peak_rss_kib": 106288,
+        "reserved_obligations": 231471,
+        "result": "all assertions passed",
+        "system_cpu_seconds": 0.007745000000000002,
+        "user_cpu_seconds": 0.313913,
+        "wall_seconds": 0.32168874699999606,
+        "workers": 1
+      },
+      "reserved_obligations": 231471,
+      "status": "passed"
+    },
+    {
+      "actual_counted_obligations": 187034,
+      "label": "clean-extraction-verify",
+      "metrics": {
+        "actual_counted_obligations": 187034,
+        "child_processes": 0,
+        "operation": "verify",
+        "peak_rss_kib": 106924,
+        "reserved_obligations": 231471,
+        "result": "all assertions passed",
+        "system_cpu_seconds": 0.003837999999999994,
+        "user_cpu_seconds": 0.31204500000000013,
+        "wall_seconds": 0.3162045990000024,
+        "workers": 1
+      },
+      "reserved_obligations": 231471,
+      "status": "passed"
+    }
+  ],
+  "evidence_status": "non-evidentiary archival ledger",
+  "limit": 600000,
+  "reserved_total": 462942,
+  "schema": 1,
+  "warning": "This post-breach two-entry ledger is not a valid campaign reset. The superseded controller had already charged 835446 obligations against the 600000 cumulative ceiling."
+}

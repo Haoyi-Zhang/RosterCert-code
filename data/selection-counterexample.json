@@ -1,0 +1,165 @@
+{
+  "counterexample": {
+    "canonical": {
+      "events": [
+        {
+          "active": true,
+          "id": "e0",
+          "key": "public-e0",
+          "owner": "identity-0",
+          "parents": [],
+          "weight": 4
+        },
+        {
+          "active": true,
+          "id": "e1",
+          "key": "public-e1",
+          "owner": "identity-2",
+          "parents": [],
+          "weight": 0
+        },
+        {
+          "active": true,
+          "id": "e2",
+          "key": "public-e2",
+          "owner": "identity-0",
+          "parents": [
+            "e0"
+          ],
+          "weight": 5
+        },
+        {
+          "active": true,
+          "id": "e3",
+          "key": "public-e3",
+          "owner": "identity-1",
+          "parents": [],
+          "weight": 7
+        },
+        {
+          "active": true,
+          "id": "e4",
+          "key": "public-e4",
+          "owner": "identity-1",
+          "parents": [
+            "e3"
+          ],
+          "weight": 7
+        },
+        {
+          "active": true,
+          "id": "e5",
+          "key": "public-e5",
+          "owner": "identity-0",
+          "parents": [
+            "e3"
+          ],
+          "weight": 0
+        }
+      ],
+      "id": "case-000009",
+      "kind": "sampled-window",
+      "lower": [
+        "e0",
+        "e1",
+        "e2",
+        "e3"
+      ],
+      "profile": {
+        "identity-2": "e1"
+      },
+      "upper": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e5"
+      ]
+    },
+    "observed": {
+      "events": [
+        {
+          "active": true,
+          "id": "e0",
+          "key": "public-e0",
+          "owner": "identity-0",
+          "parents": [],
+          "weight": 4
+        },
+        {
+          "active": true,
+          "id": "e1",
+          "key": "public-e1",
+          "owner": "identity-2",
+          "parents": [],
+          "weight": 0
+        },
+        {
+          "active": true,
+          "id": "e2",
+          "key": "public-e2",
+          "owner": "identity-0",
+          "parents": [
+            "e0"
+          ],
+          "weight": 5
+        },
+        {
+          "active": true,
+          "id": "e3",
+          "key": "public-e3",
+          "owner": "identity-1",
+          "parents": [],
+          "weight": 7
+        },
+        {
+          "active": true,
+          "id": "e4",
+          "key": "public-e4",
+          "owner": "identity-1",
+          "parents": [
+            "e3"
+          ],
+          "weight": 7
+        },
+        {
+          "active": true,
+          "id": "e5",
+          "key": "public-e5",
+          "owner": "identity-0",
+          "parents": [
+            "e3"
+          ],
+          "weight": 0
+        }
+      ],
+      "id": "case-000009",
+      "kind": "sampled-window",
+      "lower": [
+        "e0",
+        "e1",
+        "e2",
+        "e3"
+      ],
+      "profile": {
+        "identity-0": "e2"
+      },
+      "upper": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e5"
+      ]
+    }
+  },
+  "defect": "RNG draws were assigned to identities in Python set iteration order",
+  "effect": "The default exact-input comparison failed before finite adjudication. The corrected fixed selector is rerun; old passing measurements are not a clean-reproduction claim.",
+  "first_record_compared_to_canonical_selection": {
+    "cases": 3215,
+    "events_bounds_and_case_families_changed": 0,
+    "profiles_different": 77
+  },
+  "repair": "Sort identity names before assigning seeded random draws.",
+  "selection_not_tuned_to_results": true
+}

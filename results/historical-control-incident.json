@@ -1,0 +1,34 @@
+{
+  "authoritative_interpretation": "campaign-status.json",
+  "controller_defect": "The superseded controller enforced the 600000-obligation ceiling per invocation instead of across the whole campaign.",
+  "evidence_status": "permanently non-evidentiary",
+  "governing_effect": "Because the declared rule made any cap breach terminal and forbade a result claim, later ledgers and successful runs cannot exclude, reset, or repair the 835446-obligation total.",
+  "historical_charged_total": 835446,
+  "historical_invocations": [
+    {
+      "kind": "pilot",
+      "obligations": 28614
+    },
+    {
+      "kind": "full-record",
+      "obligations": 259406
+    },
+    {
+      "kind": "pilot-after-selector-repair",
+      "obligations": 28614
+    },
+    {
+      "kind": "full-record-after-selector-repair",
+      "obligations": 259406
+    },
+    {
+      "kind": "full-cross-process-verify",
+      "obligations": 259406
+    }
+  ],
+  "last_reviewed": "2026-09-15",
+  "limit": 600000,
+  "retention_reason": "The record is preserved to disclose the control failure and prevent later post-breach outputs from being misread as compliant evidence.",
+  "schema": 2,
+  "status": "terminal cumulative campaign breach"
+}

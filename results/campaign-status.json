@@ -1,0 +1,66 @@
+{
+  "campaign_obligation_ceiling": 600000,
+  "consequences": [
+    "No finite-agreement, replay, negative-control, resource, or reproducibility claim may rely on these executions.",
+    "The archived data and outputs are retained only for transparency, source inspection, and defect provenance.",
+    "Written proofs, not executable outcomes, support the article's general claims.",
+    "No later invocation can retroactively repair this campaign."
+  ],
+  "evidence_status": "all computational outputs are non-evidentiary",
+  "governing_rule": "The project rule states that a cap breach stops the campaign and forbids a result claim; it does not authorize a reset that excludes earlier runs.",
+  "last_interpretation_review": "2026-09-16",
+  "later_archival_executions": [
+    {
+      "finer_counted_obligations": 374068,
+      "interpretation": "post-breach source-integrity observations; the later ledger is not a valid reset and cannot establish campaign compliance",
+      "labels": [
+        "frozen-record",
+        "clean-extraction-verify"
+      ],
+      "record": "campaign-ledger.json",
+      "reserved_obligations": 462942
+    },
+    {
+      "child_processes": 0,
+      "finer_counted_obligations": 187034,
+      "interpretation": "post-breach audit performed before the invalid-reset assumption was corrected; disclosed but not claim evidence",
+      "labels": [
+        "audit-20260915"
+      ],
+      "network_used": false,
+      "peak_rss_kib": 106796,
+      "record": "2026-09-15 audit execution (external audit ledger retained in working history)",
+      "reserved_obligations": 231471,
+      "workers": 1
+    }
+  ],
+  "schema": 1,
+  "status": "permanently noncompliant",
+  "terminal_breach": {
+    "charged_obligations": 835446,
+    "controller": "superseded per-invocation controller",
+    "invocations": [
+      {
+        "kind": "pilot",
+        "obligations": 28614
+      },
+      {
+        "kind": "full-record",
+        "obligations": 259406
+      },
+      {
+        "kind": "pilot-after-selector-repair",
+        "obligations": 28614
+      },
+      {
+        "kind": "full-record-after-selector-repair",
+        "obligations": 259406
+      },
+      {
+        "kind": "full-cross-process-verify",
+        "obligations": 259406
+      }
+    ],
+    "limit": 600000
+  }
+}
