@@ -116,4 +116,4 @@ The proof-level BGLS profile uses validated type-III public-key pairs, public-ke
 
 Event authenticity, admission, ownership, and observation completeness are explicit inputs, not inferred from signatures alone. A received authenticated upper view cannot reveal a remote update that was never delivered.
 
-Project source and benign generated fixtures are provided under `LICENSE`. No publisher paper text, third-party implementation, credential, or private data is redistributed. This is an internal named-author research draft produced with substantive AI assistance. It is not a human-only-production statement, external submission approval, independent review, or acceptance claim.
+Project source and benign generated fixtures are provided under `LICENSE`. No publisher paper text, third-party implementation, credential, or private data is redistributed.
