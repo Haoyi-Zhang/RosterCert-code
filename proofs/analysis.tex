@@ -335,7 +335,7 @@ A history-authentication interface has public parameters $pp_H$, a persistent ve
 The tag $\mathsf{tag}$ and namespace $\mathsf{ns}$ separate protocol and membership domains.  Acceptance means that $\Gamma,L,U$, including owner, key, status, weight, and parent fields, were admitted by the external governance rule and that event identifiers are unambiguous.  A signed checkpoint, transparency proof, or authenticated dictionary may realize the interface; acyclicity alone is insufficient.
 
 \paragraph{Version-key delegation signatures.}
-Each active event $e$ carries a long-term digital-signature verification key $dpk(e)$.  Its secret key signs only typed delegation statements defined below.  The signature scheme $\mathsf{DS}=(\mathsf{DGen},\mathsf{DSign},\mathsf{DVerify})$ must be secure against adaptive chosen-message attacks in the multi-user setting.  Reusing one $dpk$ in several versions of the same identity creates one exposure domain.  Registering the same $dpk$ for different identities is rejected by governance, because otherwise a valid delegation could be relabelled without a forgery.
+Each active event $e$ carries a long-term digital-signature verification key $dpk(e)$.  Its secret key signs only typed delegation statements defined below.  The signature scheme $\mathsf{DS}=(\mathsf{DGen},\mathsf{DSign},\mathsf{DVerify})$ must be secure against adaptive chosen-message attacks in the multi-user setting.  Reusing one $dpk$ in several versions of the same identity creates one exposure domain.  Governance rejects registering one $dpk$ for different identities so that distinct identities do not share secret custody or an exposure domain.  The typed identity and event fields already prevent relabelling an existing delegation; key separation addresses who can issue a new one.
 
 \paragraph{One-session accountable multisignature.}
 For one immutable session table $P=(epk_1,\ldots,epk_k)$, the base scheme supplies local key generation, its registration or proof-of-possession procedure, partial signing, aggregation, and public verification.  We write
@@ -534,7 +534,7 @@ The wrapper challenger provides $(pp,vk_H)$ and access to honest session creatio
 The adversary wins if it outputs an accepted certificate $\tau$ and protected entry $(i,e)$ for which the challenger did not record both the exact delegation and exact base participation in $\mathsf{Sess}(\tau)$.  The game concerns a completed accepted authorization.  It does not blame silence, a malformed partial contribution, or an aborted interaction.
 
 \begin{theorem}[Semantic soundness]\label{thm:semantic-soundness}
-Assume no history-soundness failure and canonical parsing.  Every accepted certificate satisfies the semantic predicate of its encoded mode.  Its ephemeral table contains exactly one distinct base key for every exact profile entry, and every such key is delegated by the long-term public key stored in that entry.
+Assume no history-soundness failure and canonical parsing.  Every accepted certificate satisfies the semantic predicate of its encoded mode.  Its ephemeral table contains exactly one distinct base key for every exact profile entry, and every such key has an accepted typed delegation signature under the long-term public key stored in that entry.  Attribution to an honest signer additionally requires Theorem~\ref{thm:composition}.
 \end{theorem}
 \begin{proof}
 History soundness fixes the admitted events, owner bindings, long-term keys, and declared order.  The verifier checks that $L,U$ are ideals, $L\subseteq U$, and each selected entry is an active write for its claimed owner.  Historical and fresh acceptance are their definitions.  Robust acceptance follows from endpoint equality and Corollary~\ref{cor:universal}, without enumeration.
@@ -544,19 +544,24 @@ Canonical table checks give one identity/event/ephemeral-key tuple per profile e
 
 \begin{theorem}[Session-separated exact-message attribution]\label{thm:composition}
 Let a wrapper adversary activate at most $q_s\geq1$ honest session tables.  There are component adversaries of comparable running time such that
-\[
+\begin{equation}
  \operatorname{Adv}^{\mathsf{ss\mbox{-}attr}}
  \leq \epsilon_H+\epsilon_B+\epsilon_D+q_s\epsilon_A.
  \label{eq:security-bound}
-\]
+\end{equation}
 The reduction preserves history, corruption, delegation, and signing queries up to deterministic wrapper checks.  No independence assumption among bad events is used.
 \end{theorem}
 \begin{proof}
-Let $B_H$ and $B_B$ denote history and context-binding failures.  Their union has probability at most $\epsilon_H+\epsilon_B$.  Condition on their complement and on an accepted winning certificate $\tau$ framing protected $(i,e)$.
+Let $W$ be wrapper success and let $B_H,B_B$ denote history and context-binding failures.  Fix one framed protected entry by a deterministic rule when $W$ occurs.  Partition $W\setminus(B_H\cup B_B)$ into $W_D$, where the entry's exact typed delegation was never issued, and $W_A$, where it was issued.  These are events in the original experiment, not experiments conditioned on an accepted output.
 
-The verifier accepted a delegation $\delta_i$ under the authenticated long-term key $dpk(e)$ on the exact typed message $(\chi,i,e,epk_i)$.  If the challenger never issued this delegation, the same output is a multi-user chosen-message forgery, contributing at most $\epsilon_D$.  Otherwise, an honest request fixed exactly the interpreted semantic context and ephemeral table in $\tau$: absence of $B_B$ prevents another context from sharing $\chi$.
+On $W_D$, the verifier accepted a delegation $\delta_i$ under the authenticated unexposed key $dpk(e)$ on an unqueried typed message $(\chi,i,e,epk_i)$.  A delegation reduction simulates the wrapper and returns this signature, so $\Pr[W_D]\leq\epsilon_D$.  On $W_A$, an honest request fixed exactly the interpreted semantic context and ephemeral table in $\tau$: absence of $B_B$ prevents another context from sharing $\chi$.  Wrapper success then means that the protected ephemeral key did not receive honest base participation on the exact accepted $(K_P,\mu,S_P)$.  The key is unexposed and occurs in no other honest session table.
 
-Because the wrapper output is nevertheless winning, the protected ephemeral key $epk_i$ did not receive honest base participation on the exact $(K_P,\mu,S_P)$ accepted in $\tau$.  The key is unexposed and appears in no other honest session table.  A base reduction guesses uniformly one of the at most $q_s$ honest tables, embeds its one-table challenge there, and generates all other session keys itself.  When the guessed table is the framed one, the accepted $\sigma$ is an exact-message attribution forgery in the single-session game.  Thus the conditioned wrapper success probability is at most $q_s\epsilon_A$.  Adding the three earlier failure probabilities proves~\eqref{eq:security-bound}.
+Before simulation, a base reduction samples a table index uniformly from $\{1,\ldots,q_s\}$.  It embeds its one-table challenge when that indexed honest table is activated and generates every other session's keys locally.  An index never activated yields no forgery.  On $W_A$, guessing the framed table has probability $1/q_s$ and yields an accepted exact-message attribution forgery.  Consequently $\Pr[W_A]/q_s\leq\epsilon_A$.  Finally,
+\[
+ \Pr[W]\leq\Pr[B_H\cup B_B]+\Pr[W_D]+\Pr[W_A]
+ \leq\epsilon_H+\epsilon_B+\epsilon_D+q_s\epsilon_A.
+\]
+No component bound is applied to a conditioned success probability, and no independence among failure events is required.
 \end{proof}
 
 The $q_s$ factor is explicit rather than hidden in the phrase ``multi-user security.''  A construction-specific base proof can improve it by giving a tight multi-instance theorem.  The compiler's point is more basic: simulation of non-target sessions is possible because their honest base keys are freshly generated by the reduction, not long-lived challenge keys reused across mutable roster tables.
@@ -582,7 +587,7 @@ Every active event carries an Ed25519 delegation key.  The typed message is exac
 The base verifier requires this ordered vector to match $P$ exactly, rejects missing, extra, duplicate, or reordered entries under the canonical syntax, and verifies every $\rho_j$ on the same $\mu$.  The vector therefore gives transparent exact-set attribution but has $\Theta(k)$ signature size; it is a baseline, not an aggregate-signature claim.
 
 \begin{theorem}[Conditional security of the executable profile]\label{thm:ed25519-reference}
-Assume an injective canonical encoding, that the checkpoint issuer signs only admitted history payloads, and EUF-CMA security of Ed25519 under independently generated keys.  Let $q_D$ bound the number of protected long-term delegation keys that can witness a wrapper forgery, and let $k_{\max}$ bound one session table.  Then the reference profile realizes the component games with
+Assume an injective canonical encoding, that the checkpoint issuer signs only admitted history payloads, and EUF-CMA security of Ed25519 under independently generated keys.  Let $q_D\geq1$ bound the total number of independently generated honest long-term delegation keys during the game, including keys later exposed, and let $k_{\max}$ bound one session table.  Same-owner versions reusing one secret count as one key, not several independent keys.  Then the reference profile realizes the component games with
 \[
  \epsilon_H\leq \operatorname{Adv}^{\mathsf{EUF\mbox{-}CMA}}_{\mathsf{Ed25519},H},\qquad
  \epsilon_D\leq q_D\operatorname{Adv}^{\mathsf{EUF\mbox{-}CMA}}_{\mathsf{Ed25519},D},
@@ -595,7 +600,7 @@ and
 The factors may be replaced by the corresponding multi-user advantages when the assumed games supply all challenge keys and the wrapper's adaptive non-target corruptions.
 \end{theorem}
 \begin{proof}
-An accepted unadmitted view contains a valid checkpoint signature on an $\eta_H$ that the correct issuer did not sign, unless two interpreted views have the same encoding.  This gives the first reduction.  For delegations, guess the unexposed long-term key that witnesses the final violation, embed the EUF-CMA challenge there, generate every other key locally, answer its signing queries through the oracle, and answer non-target corruption queries directly.  Conditioned on the guess, an accepted unissued typed delegation is a forgery; guessing loses at most $q_D$.
+An accepted unadmitted view contains a valid checkpoint signature on an $\eta_H$ that the correct issuer did not sign, unless two interpreted views have the same encoding.  This gives the first reduction.  For delegations, sample a creation index uniformly from $\{1,\ldots,q_D\}$ before simulation and embed the EUF-CMA challenge when that key is generated.  Generate every other key locally, answer target signing queries through the oracle, and answer non-target corruption queries directly.  Target corruption causes an abort; an index never created gives no forgery.  Guessing the final unexposed framed key avoids this abort and converts the accepted unissued typed delegation into a forgery with probability $1/q_D$ on each successful wrapper transcript.  The bound counts all created candidate keys, not only the adaptively chosen survivors.
 
 The base reduction is identical at session scale.  Guess the protected ephemeral entry that will witness the violation, embed the challenge key there, and generate every other ephemeral key locally.  Exact participation queries for the guessed entry are signing-oracle queries on $\mu$; non-target signing and exposure queries are answered directly.  If the guess is the final unexposed framed entry, the accepted vector contains a valid signature on an unqueried $\mu$.  The loss is at most $k_{\max}$.  A matching multi-user game can remove these target guesses directly.
 \end{proof}
@@ -616,7 +621,7 @@ Substitute Theorem~\ref{thm:ed25519-reference} into Theorem~\ref{thm:composition
 
 The corollary is a linear-size end-to-end profile.  Its \texttt{domain} field realizes $\mathsf{tag}$ in $\eta_H$, $\chi$, and $\tau$; identifiers are bounded printable US-ASCII, while messages admit Unicode scalars but not surrogate code points, making the ASCII-escaped encoding injective on the admitted domain.  Before use, every active event key, selected or not, must decode as a canonical nonidentity prime-order Ed25519 point.  The verifier also rejects noncanonical bytes, cross-identity or cross-role aliases, duplicate or misbound entries, invalid signatures, and invalid roster semantics.  Same-owner key reuse remains event-bound.
 
-This executable profile narrows, but does not erase, the deployment boundary.  The deterministic keys in the public example are test fixtures and are unusable as secrets.  The implementation delegates arithmetic and constant-time details to a maintained cryptographic library, does not prove that library correct, and supplies no key-storage, randomness, rollback, replay-database, or checkpoint-governance service.  Most importantly, the profile is linear and does not establish the compact aggregate or constant registry-key properties sought from the BGLS and accountable-multisignature layers.
+This executable profile narrows, but does not erase, the deployment boundary.  The deterministic keys in the public example are test fixtures and are unusable as secrets.  Signature arithmetic and secret-key constant-time behavior are delegated to a maintained cryptographic library; strict public-point decoding and subgroup validation are project-owned Python code. Neither implementation is proved correct here. The profile supplies no key-storage, randomness, rollback, replay-database, or checkpoint-governance service. It is linear and does not establish the compact aggregate or constant registry-key properties sought from the BGLS and accountable-multisignature layers.
 
 \subsection{A concrete key-prefixed BGLS realization}\label{subsec:bgls-realization}
 We now close the base interface with a named construction.  This realization is intentionally different from the compact-registry schemes that motivate the paper: it gives a one-group-element aggregate but sends the complete ephemeral public-key table.  Its purpose is to discharge the exact one-session attribution premise without hiding a stronger key-compression claim.
@@ -744,6 +749,9 @@ An audit of an alternative base has five checkpoints.  The BGLS-KP construction 
 Fourth, implementations must enforce one fresh session key per frozen table.  Deterministic derivation needs domain-separated uniqueness and pseudorandomness; erasure may strengthen compromise resilience but is not assumed.  Fifth, compressing $P$, $\Delta$, or history evidence needs a separate binding or soundness theorem.  A failed checkpoint blocks that alternative named instantiation, not the generic compiler theorem or the BGLS-KP corollary proved above.
 
 \section{Selection complexity and temporal limits}\label{sec:selection}\label{sec:optimization}
+Computational statements in this section use nonnegative binary-encoded integer
+weights and an integer threshold, with running time measured in the full input
+bit length.  The artifact's weight cap of 100 is a separate implementation bound.
 The exact-window algorithm evaluates one supplied profile.  Applications may instead optimize over all profiles or demand freshness beyond a declared view.  These are strictly harder questions.  The first half of this section separates a polynomial chain case from an NP-complete fork case.  The second half proves two information limits that no signature equation can remove.
 The preceding section fixes the attributed signer versions. Sometimes an application instead asks how much active weight can coexist in some admissible cut. This is a selection problem over rosters, not merely an authorization check for a supplied profile. The distinction explains why a polynomial fixed-profile test does not imply a polynomial algorithm for the best profile.
 
@@ -878,7 +886,7 @@ The primary roster implementation uses bit-mask predecessor closures and evaluat
 
 The V3 codec binds the three modes, application context, complete event DAG, bounds, cut, exact signer profile, and the table of identity, event, and ephemeral-key triples.  The reference verifier checks distinct Ed25519 history, delegation, and one-session signature objects.  It enforces canonical active keys, rejects cross-identity key aliases, cross-role key reuse, and noncanonical wire bytes, but permits event-bound same-owner key reuse.  A deterministic public fixture is byte-reproducible and deliberately contains no usable secret.  The implementation calls the maintained \texttt{cryptography} library; it neither reimplements nor proves that library.
 
-The source-integrity suite has 47 tests.  Besides semantic, signature, schema, alias, and CLI mutations, it checks the supplementary-scalar/surrogate-pair JSON alias on a miniature object; rejects non-ASCII identifiers, surrogates, the undecodable active key \texttt{ff} repeated 32 times, and identity or small-order points; accepts a Unicode-scalar message; and confirms one-handle reading of at most the limit plus one byte.  These tests exercise the implementation, not EUF-CMA security, global freshness, the general theorems, or deployment safety.
+The source-integrity suite has 50 test methods: 47 interface checks and three scientific-source synchronization regressions.  Besides semantic, signature, schema, alias, and CLI mutations, the interface checks cover the supplementary-scalar/surrogate-pair JSON alias on a miniature object; reject non-ASCII identifiers, surrogates, the undecodable active key \texttt{ff} repeated 32 times, and identity or small-order points; accept a Unicode-scalar message; and confirm one-handle reading of at most the limit plus one byte.  In a complete project tree, the static audit also compares the standalone abstract and scientific body with the recursively expanded manuscript, retaining weight-encoding assumptions and the public-point-validation boundary.  A standalone repository has no sibling manuscript to compare and reports that check as unavailable.  These checks exercise implementation and source consistency, not EUF-CMA security, global freshness, the general theorems, or deployment safety.
 
 The archive retains 2,000 window queries, 150 chain cases, 15 graph cases, 200 transformations, four controls, and 12 legacy session-mutation labels.  The exact pre-V3 two-column helper for those labels is absent, whereas V3 requires identity--event--key triples; \texttt{reproduce.py} therefore exits before generation, reservation, or enumeration.  These files support no paper claim.
 
@@ -919,6 +927,8 @@ The cost is visible rather than hidden.  The BGLS aggregate is one group element
 The model also marks two independent boundaries.  Optimizing active weight is polynomial for per-identity chains through maximum closure, but unresolved same-owner forks make selection NP-complete even in height-three histories.  No cached authenticated view can reveal an undisclosed remote revocation or prove the completeness of a dishonest signer's observations.  Stronger global-freshness claims need stronger evidence or synchrony assumptions.
 
 Finally, the article does not use its invalidated finite roster campaign as claim evidence.  The cumulative enumeration ceiling was exceeded before the accounting defect was recognized, and a later ledger cannot retroactively reset that activity.  The archived outputs remain for transparency.  The new Ed25519 fixture and mutation suite are source-integrity checks of the stated executable profile, not empirical proof of the general results.  The scientific conclusions rest on the written interval, complexity, impossibility, and cryptographic reductions.  Decentralized history governance, pairing-level implementation, performance measurement, and a theorem-level audit of the stronger compact-registry base remain separate deployment tasks.
+
+
 
 
 \begin{thebibliography}{10}

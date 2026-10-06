@@ -1,0 +1,61 @@
+name: Scientific source checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      README_ENTRY: README.md
+      MIN_EXPECTED_PYTHON_SOURCES: '14'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install declared dependency
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p check-output
+          ulimit -v 1048576
+          ulimit -f 65536
+          timeout --signal=TERM --kill-after=5s 90s \
+            python -B -m pip install --disable-pip-version-check -r requirements.txt \
+            >check-output/dependency.txt 2>&1
+      - name: Bounded whole source-check run
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p check-output
+          ulimit -v 1048576
+          ulimit -f 65536
+          ulimit -t 150
+          timeout --signal=TERM --kill-after=5s 180s bash -c '
+            set -euo pipefail
+            python -B .github/scripts/check_repository.py >check-output/materials.txt 2>&1
+            python -B -m unittest discover -s tests -v >check-output/tests.txt 2>&1
+            python -B audit_artifact.py >check-output/audit.txt 2>&1
+            python -B .github/scripts/scientific_checks.py >check-output/fixture.txt 2>&1
+            python -B verify_reference.py examples/reference-certificate.json examples/reference-history-public-key.txt >check-output/verification.txt 2>&1
+          '
+      - name: Upload raw outputs even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: scientific-check-output
+          path: check-output/
+          if-no-files-found: warn
+          retention-days: 14

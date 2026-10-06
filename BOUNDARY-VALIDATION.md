@@ -38,4 +38,4 @@ python3 verify_reference.py \
   examples/reference-history-public-key.txt
 ```
 
-At delivery, the repository contains 47 unit-test methods. Passing them establishes only the stated implementation checks, not primitive security, theorem correctness, production safety, or independent replication.
+The repository contains 50 unit-test methods: the 47 interface checks described above and three scientific-source synchronization regressions. In the complete project layout, `audit_artifact.py` compares the recursively expanded scientific manuscript with `proofs/analysis.tex`; the flat artifact layout reports the absent sibling comparison explicitly. Passing these checks establishes only implementation behavior and source consistency, not primitive security, theorem correctness, production safety, or independent replication.

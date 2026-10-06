@@ -2,7 +2,7 @@
 
 `analysis.tex` is a recursively inlined, self-contained copy of the current article. It contains no `\input`, BibTeX invocation, project-directory dependency, repository URL, or network dependency. Its bibliography is embedded from the final generated `main.bbl`.
 
-`analysis.pdf` is 36 pages and contains the same article text and 80 cited references as `paper/main.pdf` in the complete project archive. The article has a 218-word abstract under the repository counter and eight keywords.
+The supplied `analysis.pdf` is 36 pages and predates the source edits. Rebuild it before treating it as a rendering of the current `analysis.tex`. The source retains 80 cited references and eight keywords; its abstract and scientific body match the current manuscript source. Code Availability is intentionally omitted from this standalone copy.
 
 The article contains the exact causal-roster theorems, generic session-separated reduction, executable Ed25519 reference-profile theorem, and key-prefixed BGLS one-session theorem. This is a written proof artifact, not a proof-assistant development, pairing implementation, benchmark, or independent review.
 

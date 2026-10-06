@@ -37,7 +37,7 @@ Accordingly, all frozen files under `data/` and `results/` are provenance and so
 - `verify_reference.py`: single-handle bounded file verifier; requires canonical ASCII JSON bytes.
 - `generate_reference_example.py`: deterministic generator for the public, non-secret fixture.
 - `examples/`: canonical reference certificate and independent history trust anchor.
-- `tests/test_core.py`, `tests/test_reference_profile.py`, `tests/test_boundaries.py`: 47 source-integrity tests.
+- `tests/test_core.py`, `tests/test_reference_profile.py`, `tests/test_boundaries.py`: 47 interface test methods; `tests/test_manuscript_sync.py` adds three scientific-source synchronization regressions.
 - `audit_artifact.py`: static package/fixture/ledger/bibliography audit; never invokes the historical scientific runner.
 - `BOUNDARY-VALIDATION.md`: focused evidence and non-claims for the five repaired interfaces.
 - `claim_evidence_ledger.csv`: material claims mapped to proofs, source checks, and maturity.
@@ -59,7 +59,7 @@ From the repository root:
 python3 -m unittest discover -s tests -v
 ```
 
-The current package contains **47** test methods. They cover semantic malformed inputs, exact identity/event/key binding, all temporal modes, certificate schema strictness, wrong trust anchors, signature and context mutation, aliases across identities or roles, duplicate ephemeral keys, strict validation of every active Ed25519 key (including an unselected `ff`-repeated key), the supplementary-scalar/surrogate-pair serialization alias, printable-ASCII identifiers, Unicode-scalar messages, canonical wire encoding, one-handle `limit+1` reads, duplicate JSON members, and command-line verification. The alias test is a static object-interface regression, not evidence of an online forgery. Passing the suite shows that the package executes these checks; it does not prove Ed25519, the general theorems, or deployment security.
+The current package contains **50** test methods: 47 interface checks and three scientific-source synchronization regressions. They cover semantic malformed inputs, exact identity/event/key binding, all temporal modes, certificate schema strictness, wrong trust anchors, signature and context mutation, aliases across identities or roles, duplicate ephemeral keys, strict validation of every active Ed25519 key (including an unselected `ff`-repeated key), the supplementary-scalar/surrogate-pair serialization alias, printable-ASCII identifiers, Unicode-scalar messages, canonical wire encoding, one-handle `limit+1` reads, duplicate JSON members, and command-line verification. The synchronization regressions retain scientific qualifications, follow nested figure inputs, and distinguish absent sibling source from agreement. The alias test is a static object-interface regression, not evidence of an online forgery. Passing the suite shows that the package executes these checks; it does not prove Ed25519, the general theorems, or deployment security.
 
 ## Regenerate and verify the public certificate
 
@@ -84,7 +84,15 @@ The generator derives deterministic test keys so the fixture is byte-reproducibl
 python3 audit_artifact.py
 ```
 
-This checks required files, the Ed25519 fixture, ledgers, 80 embedded bibliography items, citation retention, and the permanent campaign warning. It does not run `reproduce.py`, re-enumerate the corpus, or constitute independent scientific replication.
+This checks required files, the Ed25519 fixture, ledgers, 80 embedded bibliography items, citation retention, and the permanent campaign warning. When `../paper/main.tex` exists, it additionally compares the standalone abstract and scientific body with the recursively expanded manuscript; a flat artifact repository explicitly reports this comparison as unavailable. It does not run `reproduce.py`, re-enumerate the corpus, or constitute independent scientific replication.
+
+The bounded workflow in `.github/workflows/scientific-checks.yml` runs the source checks on Ubuntu 24.04 from this flat repository root. It retains failure exit codes and uploads raw logs even on failure. Its owned fixture check can also be run locally without rewriting the supplied example:
+
+```sh
+python3 -B .github/scripts/scientific_checks.py
+```
+
+That check regenerates one deterministic public certificate in memory and requires byte equality with the supplied certificate and trust anchor. A local run does not establish that the GitHub workflow has run.
 
 ## Build the self-contained article
 

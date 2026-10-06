@@ -35,6 +35,45 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def expand_manuscript(paper: Path) -> str:
+    """Read scientific TeX inputs in the complete project; never execute TeX."""
+    paper = paper.resolve()
+    def expand(path: Path, stack: tuple[Path, ...]) -> str:
+        path = path.resolve()
+        require(path.is_relative_to(paper), "manuscript input leaves paper directory")
+        require(path not in stack, "cyclic manuscript input")
+        source = path.read_text(encoding="utf-8")
+        def include(match: re.Match[str]) -> str:
+            name = match.group(1)
+            # Code Availability is intentionally omitted from the standalone copy.
+            if name == "project-repository.tex":
+                return ""
+            target = paper / name
+            if not target.suffix:
+                target = target.with_suffix(".tex")
+            return expand(target, (*stack, path))
+        return re.sub(r"\\input\{([^}]+)\}", include, source)
+    return expand(paper / "main.tex", ())
+
+
+def scientific_body(source: str) -> str:
+    """Retain the abstract, sections, figure, proofs, and scientific qualifications."""
+    start = source.index(r"\begin{abstract}")
+    ends = [source.find(marker, start) for marker in
+            (r"\bibliographystyle{", r"\begin{thebibliography}")]
+    end = min(index for index in ends if index >= 0)
+    return "\n".join(line.rstrip() for line in source[start:end].splitlines()
+                     if line.strip())
+
+
+def check_manuscript_sync(analysis: str, paper: Path) -> str:
+    if not (paper / "main.tex").is_file():
+        return "not checked: standalone artifact has no sibling paper source"
+    require(scientific_body(analysis) == scientific_body(expand_manuscript(paper)),
+            "standalone scientific text differs from current manuscript")
+    return "abstract and scientific body match sibling manuscript, including figure inputs"
+
+
 def main() -> int:
     required = [
         "README.md", "LICENSE", "requirements.txt", "verify_reference.py",
@@ -100,7 +139,7 @@ def main() -> int:
     for test_path in sorted((ROOT / "tests").glob("test_*.py")):
         test_methods += len(re.findall(r"(?m)^    def test_[A-Za-z0-9_]+\(",
                                       test_path.read_text(encoding="utf-8")))
-    require(test_methods == 47, f"expected 47 unit-test methods, found {test_methods}")
+    require(test_methods == 50, f"expected 50 unit-test methods, found {test_methods}")
 
     runner = (ROOT / "reproduce.py").read_text(encoding="utf-8")
     require("from session import" not in runner,
@@ -116,6 +155,7 @@ def main() -> int:
     bibitems = re.findall(r"(?m)^\\bibitem\{([^}]+)\}", analysis)
     require(len(bibitems) == 80, f"expected 80 embedded bibitems, found {len(bibitems)}")
     require(set(bibitems) == set(lit_keys), "embedded bibliography keys do not match the ledgers")
+    manuscript_sync = check_manuscript_sync(analysis, ROOT.parent / "paper")
 
     campaign = json.loads((ROOT / "results/campaign-status.json").read_text(encoding="utf-8"))
     breach = campaign["terminal_breach"]
@@ -136,6 +176,7 @@ def main() -> int:
         "unit_test_methods": test_methods,
         "external_resource_rows": len(resources),
         "embedded_bibitems": len(bibitems),
+        "manuscript_source_sync": manuscript_sync,
         "campaign_status": campaign["status"],
         "terminal_charged_obligations": int(breach["charged_obligations"]),
         "terminal_limit": int(breach["limit"]),
