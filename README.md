@@ -63,6 +63,21 @@ The current package contains **50** test methods: 47 interface checks and three 
 
 ## Regenerate and verify the public certificate
 
+Current-version lookup prepares immutable strict-descendant masks once per
+admitted roster, then intersects them with present same-owner writes. Cross-owner
+descendants do not retire a version; incomparable same-owner maxima still
+quarantine, and inactive maxima remain inactive. No measured speedup is claimed.
+The separate optional source-integrity regression is also an explicit CI step:
+
+```sh
+python3 -B tests/regression_current_versions.py -v
+```
+
+It uses only named tiny/admission-boundary fixtures and one existing public
+certificate, with an independent graph-path reference and exact payload checks.
+It does not enumerate, reopen or provide evidence for the invalidated campaign.
+The original 50-method suite and all historical receipts remain unchanged.
+
 ```sh
 python3 generate_reference_example.py
 python3 verify_reference.py \

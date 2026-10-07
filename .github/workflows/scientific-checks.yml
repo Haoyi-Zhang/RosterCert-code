@@ -47,6 +47,7 @@ jobs:
             set -euo pipefail
             python -B .github/scripts/check_repository.py >check-output/materials.txt 2>&1
             python -B -m unittest discover -s tests -v >check-output/tests.txt 2>&1
+            python -B tests/regression_current_versions.py -v >check-output/current-versions.txt 2>&1
             python -B audit_artifact.py >check-output/audit.txt 2>&1
             python -B .github/scripts/scientific_checks.py >check-output/fixture.txt 2>&1
             python -B verify_reference.py examples/reference-certificate.json examples/reference-history-public-key.txt >check-output/verification.txt 2>&1

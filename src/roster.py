@@ -73,6 +73,12 @@ class Roster:
                 a |= self.anc[self.index[p]]
             self.anc.append(a)
             self.writes[event.owner] = self.writes.get(event.owner, 0) | (1 << i)
+        # Immutable strict descendants of each admitted event. Current-state
+        # lookup intersects these with same-owner present writes, not all events.
+        self._strict_desc = tuple(
+            sum(1 << j for j in range(self.n) if j != i and self.anc[j] & (1 << i))
+            for i in range(self.n)
+        )
 
     def mask(self, names: Iterable[str]) -> int:
         if isinstance(names, (str, bytes)):
@@ -108,8 +114,7 @@ class Roster:
         for owner, writes in self.writes.items():
             present = cut & writes
             maximal = [i for i in range(self.n) if present & (1 << i) and
-                       not any(j != i and present & (1 << j) and self.anc[j] & (1 << i)
-                               for j in range(self.n))]
+                       not (present & self._strict_desc[i])]
             if len(maximal) == 1 and self.events[maximal[0]].active:
                 out[owner] = self.events[maximal[0]].name
         return out
