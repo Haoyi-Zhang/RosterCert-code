@@ -752,8 +752,7 @@ Fourth, implementations must enforce one fresh session key per frozen table.  De
 Computational statements in this section use nonnegative binary-encoded integer
 weights and an integer threshold, with running time measured in the full input
 bit length.  The artifact's weight cap of 100 is a separate implementation bound.
-The exact-window algorithm evaluates one supplied profile.  Applications may instead optimize over all profiles or demand freshness beyond a declared view.  These are strictly harder questions.  The first half of this section separates a polynomial chain case from an NP-complete fork case.  The second half proves two information limits that no signature equation can remove.
-The preceding section fixes the attributed signer versions. Sometimes an application instead asks how much active weight can coexist in some admissible cut. This is a selection problem over rosters, not merely an authorization check for a supplied profile. The distinction explains why a polynomial fixed-profile test does not imply a polynomial algorithm for the best profile.
+The exact-window algorithm evaluates one supplied signer/version profile. An application may instead ask for the greatest active weight that can coexist in an admissible cut, or for freshness beyond a declared view. The first question is a selection problem: a polynomial fixed-profile test does not imply a polynomial algorithm for the best profile. We separate a polynomial per-identity-chain case from an NP-complete fork case, then establish two information limits on temporal guarantees.
 
 \subsection{Per-identity chains and telescoping weights}
 Assume first that every $E_i$ is a chain. Let $p_i(e)$ be the immediately preceding write of $i$ before $e$, when it exists, and define
@@ -838,8 +837,7 @@ Authentication in the reduction is an input promise: all constructed writes are 
 
 
 \subsection{Two limits of an authenticated causal history}\label{sec:observations}
-The following separations concern information, not cryptanalytic failure.  They delimit the strongest temporal promise that can be attached to the certificates of Section~\ref{sec:compiler}.
-A signature can bind a view without proving that the view contains every event that matters to a particular freshness policy. This section states two elementary separations. The first concerns an event not delivered to a verifier. The second concerns an event observed by a dishonest party but omitted from its declaration. Neither argument is a claim about breaking the underlying cryptography.
+A signature binds a declared view, but does not establish that it contains every event relevant to a freshness policy. The two separations below delimit the temporal guarantees of the certificates in Section~\ref{sec:compiler}: one concerns an event not delivered to a verifier; the other concerns an event observed by a dishonest party but omitted from its declaration. Both concern unavailable information rather than cryptanalytic failure.
 
 \subsubsection{Global revocation freshness versus cached-view acceptance}
 Consider asynchronous executions with authenticated messages, unbounded finite message delays, and no external clock or oracle certifying that all prior revocations have arrived. A verifier's decision at any finite point depends on its local input, delivered transcript, internal state, and random tape. A remote authority can generate a valid revocation without waiting for delivery to that verifier or to a signer.
