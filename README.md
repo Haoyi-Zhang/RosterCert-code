@@ -26,7 +26,7 @@ Accordingly, all frozen files under `data/` and `results/` are provenance and so
 
 ## Repository map
 
-- `proofs/analysis.tex`, `proofs/analysis.pdf`: self-contained 36-page article with embedded 80-item bibliography.
+- `proofs/analysis.tex`, `proofs/analysis.pdf`: self-contained 37-page article with embedded 80-item bibliography.
 - `src/roster.py`: finite-poset roster semantics.
 - `src/oracle.py`: separately structured exhaustive oracle for small source-integrity cases.
 - `src/cases.py`: deterministic historical-corpus generator.
