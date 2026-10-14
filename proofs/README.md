@@ -1,6 +1,6 @@
 # Standalone article source
 
-`analysis.tex` is a recursively inlined, self-contained copy of the current article. It contains no `\input`, BibTeX invocation, project-directory dependency, repository URL, or network dependency. Its bibliography is embedded from the final generated `main.bbl`.
+`analysis.tex` is a recursively inlined, self-contained copy of the article. It contains no `\input`, BibTeX invocation, project-directory dependency, repository URL, or network dependency. Its bibliography is embedded from the generated `main.bbl`.
 
 `analysis.pdf` is the 37-page rendering of `analysis.tex`. The source retains 80 cited references and eight keywords; its abstract and scientific body match the manuscript source. Code Availability is intentionally omitted from this standalone copy.
 
