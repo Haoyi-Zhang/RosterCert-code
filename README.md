@@ -1,115 +1,69 @@
-# Accountable multisignatures under asynchronous churn
+# Causal roster certificates
 
-This standalone repository accompanies the internal article **Causal Roster Certificates for Session-Separated Accountable Multisignatures under Asynchronous Churn**.
+Artifact for *Causal Roster Certificates for Session-Separated Accountable Multisignatures under Asynchronous Churn*. It supplies finite-poset roster semantics, an executable Ed25519 checkpoint/delegation/session-signature profile, a public fixture, and a self-contained written proof article. The BGLS realization is proof-only: no pairings, production curve/hash-to-group suite, or performance measurements are implemented.
 
-## What is established
+## Setup
 
-The self-contained article proves:
-
-- an exact interval characterization of all causal cuts authorizing one fixed identity/key-version profile;
-- exact historical, view-fresh, and window-robust acceptance modes;
-- a session-separated compiler that binds exact long-term versions to fresh one-session keys;
-- an explicit signed protocol-domain tag, with public parameters plus the certificate determining every authenticated payload;
-- a generic completed-framing reduction;
-- a conditional executable Ed25519 signed-checkpoint/delegation/vector profile;
-- a conditional key-prefixed BGLS one-session aggregate realization;
-- maximum-closure tractability for per-identity chains and NP-completeness with quarantined forks;
-- information limits for hidden revocation and undeclared observation.
-
-The Ed25519 profile is implemented and performs real public-key verification. The BGLS profile is a written random-oracle reduction only: this repository does not implement pairings, choose a production curve/hash-to-group suite, or report performance. Neither profile supplies the anchor paper's constant stored registry-key compression, and neither makes the complete causal certificate constant size.
-
-## Permanent campaign warning
-
-The historical finite diagnostic campaign exceeded its declared cumulative ceiling. The superseded controller charged **835,446** obligations against a **600,000** ceiling. Under the governing project rule, that breach is terminal. Later runs and ledgers cannot reset, exclude, or repair it.
-
-Accordingly, all frozen files under `data/` and `results/` are provenance and source-inspection material only. They are not evidence for a theorem, cryptographic property, complexity result, resource claim, or scientific reproduction claim. `results/campaign-status.json` is authoritative. The exact pre-V3 two-column session helper that produced the archived 12 mutation labels is absent; `results/HISTORICAL-SOURCE-LIMITATION.md` records that gap. `reproduce.py` exits before generation, reservation, or enumeration and cannot create evidence.
-
-## Repository map
-
-- `proofs/analysis.tex`, `proofs/analysis.pdf`: self-contained 37-page article with embedded 80-item bibliography.
-- `src/roster.py`: finite-poset roster semantics.
-- `src/oracle.py`: separately structured exhaustive oracle for small source-integrity cases.
-- `src/cases.py`: deterministic historical-corpus generator.
-- `src/wire_profile.py`: shared printable-ASCII identifier, Unicode-scalar message, and canonical-JSON boundary.
-- `src/ed25519_points.py`: strict canonical, nonidentity, prime-order Ed25519 public-key admission.
-- `src/session.py`: semantic normalization and exact history, delegation, and base payload encodings.
-- `src/reference_profile.py`: executable Ed25519 checkpoint, delegation, and linear one-session signature profile.
-- `verify_reference.py`: single-handle bounded file verifier; requires canonical ASCII JSON bytes.
-- `generate_reference_example.py`: deterministic generator for the public, non-secret fixture.
-- `examples/`: canonical reference certificate and independent history trust anchor.
-- `tests/test_core.py`, `tests/test_reference_profile.py`, `tests/test_boundaries.py`: 47 interface test methods; `tests/test_manuscript_sync.py` adds three scientific-source synchronization regressions.
-- `audit_artifact.py`: static package/fixture/ledger/bibliography audit; never invokes the historical scientific runner.
-- `BOUNDARY-VALIDATION.md`: focused evidence and non-claims for the five repaired interfaces.
-- `claim_evidence_ledger.csv`: material claims mapped to proofs, source checks, and maturity.
-- `literature.csv`: 80 scholarly sources with role and disclosed reading depth.
-- `bibliography_audit.csv`: persistent-identifier, citation-count, and verification-depth audit for all 80 entries.
-- `external_resources.csv`: scholarly/tool records, acquisition mode, license boundary, and integration role.
-- `data/`, `results/`: preserved historical diagnostics and terminal campaign/source disclosure; non-evidentiary.
-- `reproduce.py`: non-executing limitation reporter; the missing pre-V3 dependency is not reconstructed or replaced.
-
-## Dependency
-
-The executable reference profile requires Python 3 and `cryptography>=41`, as declared in `requirements.txt`. No secret, network service, GPU, private data, or external model is required.
-
-## Source-integrity tests
-
-From the repository root:
+Use Python 3.12 (the CI version) with `cryptography>=41`, declared in `requirements.txt`. From this directory, or the root of either flat public repository:
 
 ```sh
-python3 -m unittest discover -s tests -v
+python -m venv .venv
+# POSIX: source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
-The current package contains **50** test methods: 47 interface checks and three scientific-source synchronization regressions. They cover semantic malformed inputs, exact identity/event/key binding, all temporal modes, certificate schema strictness, wrong trust anchors, signature and context mutation, aliases across identities or roles, duplicate ephemeral keys, strict validation of every active Ed25519 key (including an unselected `ff`-repeated key), the supplementary-scalar/surrogate-pair serialization alias, printable-ASCII identifiers, Unicode-scalar messages, canonical wire encoding, one-handle `limit+1` reads, duplicate JSON members, and command-line verification. The synchronization regressions retain scientific qualifications, follow nested figure inputs, and distinguish absent sibling source from agreement. The alias test is a static object-interface regression, not evidence of an online forgery. Passing the suite shows that the package executes these checks; it does not prove Ed25519, the general theorems, or deployment security.
+No network service, secret, GPU, private dataset, or external model is required to run the checks after dependency installation. TeX is needed only for the optional article build.
 
-## Regenerate and verify the public certificate
-
-Current-version lookup prepares immutable strict-descendant masks once per
-admitted roster, then intersects them with present same-owner writes. Cross-owner
-descendants do not retire a version; incomparable same-owner maxima still
-quarantine, and inactive maxima remain inactive. No measured speedup is claimed.
-The separate optional source-integrity regression is also an explicit CI step:
+## Run the bounded source checks
 
 ```sh
-python3 -B tests/regression_current_versions.py -v
+python -B -m unittest discover -s tests -v
+python -B tests/regression_current_versions.py -v
+python -B audit_artifact.py
+python -B .github/scripts/check_repository.py
+python -B .github/scripts/scientific_checks.py
+python -B verify_reference.py examples/reference-certificate.json examples/reference-history-public-key.txt
 ```
 
-It uses only named tiny/admission-boundary fixtures and one existing public
-certificate, with an independent graph-path reference and exact payload checks.
-It does not enumerate, reopen or provide evidence for the invalidated campaign.
-The original 50-method suite and all historical receipts remain unchanged.
+The verifier prints `VALID` on success. Its inputs are canonical ASCII-JSON certificate bytes and an independently supplied history public key. The fixture check regenerates one deterministic public certificate in memory and compares the certificate and trust anchor byte-for-byte without rewriting them.
+
+The main suite has 50 test methods: 47 interface checks and three manuscript-source synchronization regressions. The separate current-version regression covers named tiny/admission-boundary fixtures, an independent graph-path reference, and exact payloads. Current-version lookup caches strict-descendant masks; no measured speedup is claimed.
+
+`audit_artifact.py` checks the fixture, package, bibliography/claim ledgers, and campaign disclosures. With a sibling `../paper/main.tex`, it compares the recursively expanded scientific body with `proofs/analysis.tex`; flat public repositories explicitly report that comparison as unavailable. CI runs the bounded source checks on Ubuntu 24.04 and retains raw outputs even on failure. These checks establish implementation behavior and source consistency, not theorem correctness, primitive security, independent replication, or deployment readiness.
+
+## Public example
+
+To overwrite the two supplied example files with their deterministic public bytes:
 
 ```sh
-python3 generate_reference_example.py
-python3 verify_reference.py \
-  examples/reference-certificate.json \
-  examples/reference-history-public-key.txt
+python -B generate_reference_example.py
+python -B verify_reference.py examples/reference-certificate.json examples/reference-history-public-key.txt
 ```
 
-Expected verifier output:
+The test keys are public and unsafe for real authorization. The verifier rejects noncanonical JSON, duplicate members, invalid active Ed25519 keys, role/key aliases, malformed contexts, and oversized reads. Identifiers are nonempty printable US-ASCII; messages are Unicode scalar values, with surrogate code points rejected before canonical encoding. See `BOUNDARY-VALIDATION.md` for the exact interfaces and regression cases.
 
-```text
-VALID
-```
+## Historical campaign: not reproducible evidence
 
-The generator derives deterministic test keys so the fixture is byte-reproducible. Those keys are public and unsafe for real authorization. The verifier rejects a file unless its raw bytes equal the profile's canonical ASCII-JSON encoding.
+The historical finite diagnostic campaign permanently exceeded its cumulative ceiling: **835,446** charged obligations against **600,000**. Later runs cannot reset, exclude, or repair that terminal breach. All frozen `data/` and `results/` files are non-evidentiary provenance/source-inspection material, not support for any theorem, cryptographic property, complexity result, resource claim, or scientific reproduction claim.
 
-## Static delivery audit
+`results/campaign-status.json` is authoritative; `results/README.md` explains the retained inputs, ledgers, outputs, and later post-breach activity. The exact pre-V3 two-column session helper behind the archived 12 mutation labels is absent; `results/HISTORICAL-SOURCE-LIMITATION.md` documents the gap. The current V3 identity/event/key codec is not a historical replacement.
 
 ```sh
-python3 audit_artifact.py
+python -B reproduce.py --explain
 ```
 
-This checks required files, the Ed25519 fixture, ledgers, 80 embedded bibliography items, citation retention, and the permanent campaign warning. When `../paper/main.tex` exists, it additionally compares the standalone abstract and scientific body with the recursively expanded manuscript; a flat artifact repository explicitly reports this comparison as unavailable. It does not run `reproduce.py`, re-enumerate the corpus, or constitute independent scientific replication.
+This prints the limitation and intentionally exits **2**, before generator imports, input creation, ledger reservation, or enumeration. It is not a reproduction command.
 
-The bounded workflow in `.github/workflows/scientific-checks.yml` runs the source checks on Ubuntu 24.04 from this flat repository root. It retains failure exit codes and uploads raw logs even on failure. Its owned fixture check can also be run locally without rewriting the supplied example:
+## Materials and article build
 
-```sh
-python3 -B .github/scripts/scientific_checks.py
-```
+- `src/`: roster semantics, bounded oracle/generator, shared wire encoding, Ed25519 admission, session payloads, and reference profile.
+- `examples/`: public certificate and independent history trust anchor; see its README for input semantics.
+- `data/`, `results/`: frozen historical diagnostics and required provenance disclosures.
+- `claim_evidence_ledger.csv`, `literature.csv`, `bibliography_audit.csv`, `external_resources.csv`: claim/source mappings, 80-source bibliography, reading depth, identifiers, and license boundaries.
+- `proofs/analysis.tex`, `proofs/analysis.pdf`: self-contained 37-page article with 80 embedded references; no BibTeX, external inputs, project-tree paths, or network dependency.
 
-That check regenerates one deterministic public certificate in memory and requires byte equality with the supplied certificate and trust anchor. A local run does not establish that the GitHub workflow has run.
-
-## Build the self-contained article
+With `pdflatex` installed:
 
 ```sh
 cd proofs
@@ -117,26 +71,12 @@ pdflatex -interaction=nonstopmode -halt-on-error analysis.tex
 pdflatex -interaction=nonstopmode -halt-on-error analysis.tex
 ```
 
-The source contains no `\input`, BibTeX invocation, project-tree path, repository URL, or network dependency. Successful compilation checks typesetting and references only, not mathematical correctness.
+Compilation checks typesetting and references, not the written proofs.
 
-## Optional inspection of historical code
+## Conditions and licensing
 
-`reproduce.py` does not reproduce the campaign. It reports that the cumulative campaign is terminally invalid and that the exact pre-V3 two-column session-codec dependency is missing, then exits before importing generators or reserving work. Adapting calls to the current three-column V3 contract would be a new program and must not be described as historical provenance.
+Event authenticity, admission, ownership, and observation completeness are explicit inputs. An authenticated upper view cannot reveal an undelivered remote update. The executable profile separates history-checkpoint, long-term delegation, and fresh session-key roles; it has no secure key store, randomness service, erasure guarantee, rollback protection, replay database, decentralized governance, transparency consistency proof, or availability protocol.
 
-## Cryptographic boundary
+Neither the Ed25519 nor proof-only BGLS profile supplies constant stored registry-key compression or constant-size causal certificates. The BGLS aggregate alone is one source-group element; its table and other evidence remain linear. See the article for the conditional theorems and assumptions.
 
-The executable profile uses three independently modelled Ed25519 roles:
-
-1. a central history-checkpoint key;
-2. active long-term version/delegation keys; and
-3. fresh one-session keys.
-
-All identifiers use one printable US-ASCII boundary; messages use Unicode scalar values and reject explicit surrogate code points before canonical ASCII escaping. Issuance, object verification, and the CLI share this normalization. Every active event key, selected or not, must be a canonical nonidentity point in the prime-order Ed25519 subgroup; hexadecimal length alone is insufficient. The profile also rejects byte reuse across roles and one active long-term key assigned to two identities, while permitting same-owner reuse across event versions because every payload binds the exact event ID. It has no secure key store, randomness service, erasure guarantee, rollback protection, replay database, governance implementation, transparency consistency proof, or availability protocol.
-
-The proof-level BGLS profile uses validated type-III public-key pairs, public-key-prefixed messages, and a complete table/message/signer-set encoding. Its aggregate is one source-group element; the table and other certificate evidence remain linear. Current BLS implementation guidance is used for validation practice only, while the cited multi-user BLS/BGLS paper supplies the security theorem.
-
-## Trust, licensing, and external use
-
-Event authenticity, admission, ownership, and observation completeness are explicit inputs, not inferred from signatures alone. A received authenticated upper view cannot reveal a remote update that was never delivered.
-
-Project source and benign generated fixtures are provided under `LICENSE`. No publisher paper text, third-party implementation, credential, or private data is redistributed.
+Project source and benign fixtures are covered by `LICENSE`. No publisher paper text, third-party implementation, credential, or private data is redistributed.
